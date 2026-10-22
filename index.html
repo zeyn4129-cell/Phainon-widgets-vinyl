@@ -1,0 +1,569 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phainon's Vinyl</title>
+
+<style>
+:root {
+  --blue: #8DB1DA;
+  --dark-blue: #344C69;
+  --ink: #172331;
+  --light: #F0F5FB;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--blue);
+}
+
+.widget {
+  width: 330px;
+  max-width: 100%;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: 25px;
+  background: var(--light);
+  box-shadow: 0 18px 50px #344C6930;
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--dark-blue);
+}
+
+h1 {
+  margin: 8px 0 5px;
+  font-family: Georgia, serif;
+  font-size: 27px;
+  font-weight: normal;
+}
+
+.subtitle {
+  margin: 0 0 23px;
+  color: #63758B;
+  font-size: 12px;
+}
+
+.turntable {
+  position: relative;
+  width: 235px;
+  height: 235px;
+  margin: 0 auto 23px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #D7E5F4;
+  box-shadow: inset 0 0 0 1px white;
+}
+
+.vinyl {
+  width: 215px;
+  height: 215px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(
+      circle,
+      #222832 0px,
+      #222832 2px,
+      #343A45 3px,
+      #171B23 4px,
+      #222832 6px
+    );
+  box-shadow:
+    0 5px 12px #17233145,
+    inset 0 0 0 2px #111720;
+}
+
+.vinyl::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid #FFFFFF17;
+  border-radius: 50%;
+}
+
+.vinyl::after {
+  content: "";
+  position: absolute;
+  inset: 17px;
+  border: 1px solid #FFFFFF15;
+  border-radius: 50%;
+}
+
+.vinyl.spinning {
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.label {
+  z-index: 1;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border: 4px solid var(--blue);
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 3px #171B23;
+}
+
+.label img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.hole {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  transform: translate(-50%, -50%);
+  border: 1px solid #C9D5E3;
+  border-radius: 50%;
+  background: #171B23;
+}
+
+.track {
+  margin: 0 auto 15px;
+}
+
+.track-name {
+  overflow: hidden;
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.artist {
+  margin-top: 5px;
+  color: #718198;
+  font-size: 12px;
+}
+
+.status {
+  margin: 15px 0;
+  color: #647B96;
+  font-size: 11px;
+}
+
+button {
+  width: 100%;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--blue);
+  color: #182A3E;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .2s, filter .2s;
+}
+
+button:hover {
+  filter: brightness(.96);
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: .65;
+}
+
+.disconnect {
+  margin-top: 8px;
+  background: transparent;
+  color: #718198;
+  font-size: 11px;
+}
+
+.footer {
+  margin-top: 17px;
+  color: #94A3B6;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.note {
+  margin-top: 10px;
+  color: #718198;
+  font-size: 10px;
+  line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+<main class="widget">
+  <div class="eyebrow">NOW SPINNING</div>
+  <h1>Phainon's Vinyl</h1>
+  <p class="subtitle">a little record just for you ♡</p>
+
+  <div class="turntable">
+    <div class="vinyl" id="vinyl">
+      <div class="label">
+        <img
+          src=".C:\Users\IVEN\Pictures\phainon\e7ed4c4a6e090e0fa1b327874d65c7b8.jpg"
+          alt="Phainon"
+          onerror="this.style.display='none'"
+        >
+      </div>
+      <div class="hole"></div>
+    </div>
+  </div>
+
+  <div class="track">
+    <div class="track-name" id="song">Waiting for a song ♫</div>
+    <div class="artist" id="artist">
+      Connect Spotify to begin
+    </div>
+  </div>
+
+  <div class="status" id="status">♡ ready when you are</div>
+
+  <button id="connect">CONNECT SPOTIFY ♫</button>
+  <button class="disconnect" id="disconnect" hidden>
+    Disconnect Spotify
+  </button>
+
+  <div class="note" id="note">
+    Your Phainon vinyl player
+  </div>
+
+  <div class="footer">MADE WITH ♡ AND MUSIC</div>
+</main>
+
+<script>
+// 1. ADD YOUR SPOTIFY APP CLIENT ID HERE.
+const CLIENT_ID = "PASTE_YOUR_CLIENT_ID_HERE";
+
+// 2. This page's URL must be registered in your Spotify app settings.
+const REDIRECT_URI =
+  window.location.origin + window.location.pathname;
+
+const SCOPES =
+  "user-read-currently-playing user-read-playback-state";
+
+const $ = id => document.getElementById(id);
+
+let accessToken = localStorage.getItem("phainon_token");
+let refreshToken = localStorage.getItem("phainon_refresh");
+let expiresAt = Number(localStorage.getItem("phainon_expiry") || 0);
+let pollTimer;
+let isPlaying = false;
+
+function message(text) {
+  $("status").textContent = text;
+}
+
+function spin(playing) {
+  isPlaying = playing;
+  $("vinyl").classList.toggle("spinning", playing);
+}
+
+function randomString(length = 64) {
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+  const bytes = crypto.getRandomValues(new Uint8Array(length));
+
+  return Array.from(bytes, b => chars[b % chars.length]).join("");
+}
+
+function base64url(bytes) {
+  return btoa(String.fromCharCode(...bytes))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
+
+async function challengeFor(verifier) {
+  const data = new TextEncoder().encode(verifier);
+  const digest = await crypto.subtle.digest("SHA-256", data);
+  return base64url(new Uint8Array(digest));
+}
+
+function saveTokens(data) {
+  accessToken = data.access_token;
+  localStorage.setItem("phainon_token", accessToken);
+
+  expiresAt = Date.now() + data.expires_in * 1000;
+  localStorage.setItem("phainon_expiry", String(expiresAt));
+
+  if (data.refresh_token) {
+    refreshToken = data.refresh_token;
+    localStorage.setItem("phainon_refresh", refreshToken);
+  }
+}
+
+async function connectSpotify() {
+  if (
+    CLIENT_ID === "PASTE_YOUR_CLIENT_ID_HERE" ||
+    !CLIENT_ID.trim()
+  ) {
+    message("Add your Spotify Client ID first ♡");
+    $("note").textContent =
+      "See the setup instructions below the code.";
+    return;
+  }
+
+  if (!window.isSecureContext) {
+    message("Please open this page using HTTPS or localhost.");
+    return;
+  }
+
+  const verifier = randomString();
+  const challenge = await challengeFor(verifier);
+  const state = randomString(32);
+
+  sessionStorage.setItem("phainon_verifier", verifier);
+  sessionStorage.setItem("phainon_state", state);
+
+  const url = new URL("https://accounts.spotify.com/authorize");
+
+  url.search = new URLSearchParams({
+    client_id: CLIENT_ID,
+    response_type: "code",
+    redirect_uri: REDIRECT_URI,
+    scope: SCOPES,
+    state,
+    code_challenge_method: "S256",
+    code_challenge: challenge
+  });
+
+  window.location.assign(url.toString());
+}
+
+async function exchangeCode(code) {
+  const verifier = sessionStorage.getItem("phainon_verifier");
+
+  const response = await fetch(
+    "https://accounts.spotify.com/api/token",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        client_id: CLIENT_ID,
+        grant_type: "authorization_code",
+        code,
+        redirect_uri: REDIRECT_URI,
+        code_verifier: verifier
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error_description || "Spotify login failed.");
+  }
+
+  saveTokens(data);
+  sessionStorage.removeItem("phainon_verifier");
+  sessionStorage.removeItem("phainon_state");
+}
+
+async function renewToken() {
+  if (!refreshToken) return false;
+
+  const response = await fetch(
+    "https://accounts.spotify.com/api/token",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        client_id: CLIENT_ID,
+        grant_type: "refresh_token",
+        refresh_token: refreshToken
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error("Please reconnect Spotify.");
+  }
+
+  saveTokens(data);
+  return true;
+}
+
+async function ensureToken() {
+  if (accessToken && Date.now() < expiresAt - 60000) {
+    return true;
+  }
+
+  if (refreshToken) {
+    return await renewToken();
+  }
+
+  return false;
+}
+
+async function updateSong() {
+  if (!accessToken) return;
+
+  try {
+    if (!(await ensureToken())) {
+      message("Please reconnect Spotify ♡");
+      spin(false);
+      return;
+    }
+
+    const response = await fetch(
+      "https://api.spotify.com/v1/me/player/currently-playing",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+    );
+
+    if (response.status === 204) {
+      $("song").textContent = "Nothing playing right now";
+      $("artist").textContent = "Your next song awaits ♡";
+      message("♡ waiting for music");
+      spin(false);
+      return;
+    }
+
+    if (response.status === 401) {
+      accessToken = null;
+      localStorage.removeItem("phainon_token");
+      message("Please reconnect Spotify ♡");
+      spin(false);
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error("Couldn't read playback information.");
+    }
+
+    const data = await response.json();
+
+    if (!data.item) {
+      message("No track information available");
+      spin(false);
+      return;
+    }
+
+    $("song").textContent = data.item.name;
+    $("artist").textContent = data.item.artists
+      .map(a => a.name).join(", ");
+
+    if (data.is_playing) {
+      message("♫ now playing");
+      spin(true);
+    } else {
+      message("Ⅱ music paused");
+      spin(false);
+    }
+  } catch (error) {
+    message(error.message || "Couldn't update the song.");
+    spin(false);
+  }
+}
+
+function startPolling() {
+  clearInterval(pollTimer);
+  updateSong();
+  pollTimer = setInterval(updateSong, 10000);
+}
+
+async function start() {
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("code");
+  const returnedState = params.get("state");
+  const error = params.get("error");
+
+  if (error) {
+    message("Spotify connection cancelled.");
+    window.history.replaceState({}, "", REDIRECT_URI);
+    return;
+  }
+
+  if (code) {
+    if (
+      !returnedState ||
+      returnedState !== sessionStorage.getItem("phainon_state")
+    ) {
+      message("Login check failed. Please reconnect.");
+      window.history.replaceState({}, "", REDIRECT_URI);
+      return;
+    }
+
+    try {
+      message("Connecting to Spotify...");
+      await exchangeCode(code);
+      window.history.replaceState({}, "", REDIRECT_URI);
+    } catch (err) {
+      message(err.message);
+      window.history.replaceState({}, "", REDIRECT_URI);
+      return;
+    }
+  }
+
+  if (accessToken) {
+    $("connect").textContent = "SPOTIFY CONNECTED ♫";
+    $("disconnect").hidden = false;
+    $("note").textContent = "Updating every 10 seconds";
+    startPolling();
+  }
+}
+
+$("connect").addEventListener("click", connectSpotify);
+
+$("disconnect").addEventListener("click", () => {
+  clearInterval(pollTimer);
+  localStorage.removeItem("phainon_token");
+  localStorage.removeItem("phainon_refresh");
+  localStorage.removeItem("phainon_expiry");
+
+  accessToken = null;
+  refreshToken = null;
+  spin(false);
+
+  $("song").textContent = "Waiting for a song ♫";
+  $("artist").textContent = "Connect Spotify to begin";
+  $("connect").textContent = "CONNECT SPOTIFY ♫";
+  $("disconnect").hidden = true;
+
+  message("Disconnected ♡");
+});
+
+start();
+</script>
+</body>
+</html>
